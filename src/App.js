@@ -315,6 +315,29 @@ const App = () => {
         </DialogActions>
       </Dialog>
 
+      <button
+        onClick={async () => {
+          console.log("SET ROLE");
+
+          const sendOptions = {
+            contractAddress: baseContractAddress,
+            functionName: "grantRole",
+            abi: MIRLs.abi,
+            params: {
+              role: "0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6",
+              account: minterContractAddress,
+            },
+          };
+
+          const transaction = await Moralis.executeFunction(sendOptions);
+          console.log(transaction.hash);
+          // Wait until the transaction is confirmed
+          await transaction.wait();
+        }}
+      >
+        BASE: grantRole
+      </button>
+
       <Grid container alignItems="space-between">
         <Grid item xs={12} md={8} my="auto">
           <div className="mint-poster-outer">

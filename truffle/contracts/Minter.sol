@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.2;
+pragma solidity ^0.8.11;
 
-import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
+import '@openzeppelin/contracts/access/Ownable.sol';
 import './MIRLs.sol';
 
-contract Minter is OwnableUpgradeable {
+contract Minter is Ownable {
   uint256 public BASE_PRICE = 0.05 ether;
   uint256 public constant MAX_PER_WALLET = 2;
   uint256 public constant MAX_MIRLS = 888;
