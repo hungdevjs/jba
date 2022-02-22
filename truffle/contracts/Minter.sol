@@ -2,23 +2,23 @@
 pragma solidity ^0.8.11;
 
 import '@openzeppelin/contracts/access/Ownable.sol';
-import './MIRLs.sol';
+import './JBA.sol';
 
 contract Minter is Ownable {
   uint256 public BASE_PRICE = 0.05 ether;
   uint256 public constant MAX_PER_WALLET = 5;
-  uint256 public constant MAX_MIRLS = 888;
+  uint256 public constant MAX_JBA = 888;
   uint256 public constant FREE_MINT = 444;
 
-  MIRLs private tokens;
-  address private MIRLsAddress;
+  JBA private tokens;
+  address private JBAAddress;
 
   event Log(uint256 amount, uint256 gas);
   event ResultsFromCall(bool success, bytes data);
 
-  constructor(address payable _MIRLsAddress) {
-    MIRLsAddress = _MIRLsAddress;
-    tokens = MIRLs(_MIRLsAddress);
+  constructor(address payable _JBAAddress) {
+    JBAAddress = _JBAAddress;
+    tokens = JBA(_JBAAddress);
   }
 
   receive() external payable {}
@@ -36,7 +36,8 @@ contract Minter is Ownable {
   }
 
   function mint(address to) public payable {
-    require(tokens.totalSupply() < MAX_MIRLS, 'No more left to mint');
+    require(tokens.isWhiteListed(to), "User isnt whitelisted");
+    require(tokens.totalSupply() < MAX_JBA, 'No more left to mint');
     require(tokens.balanceOf(to) < MAX_PER_WALLET, 'You have minted your wallet limit');
 
     if (tokens.totalSupply() < FREE_MINT) {
@@ -53,7 +54,7 @@ contract Minter is Ownable {
   function batchMint(address to, uint256 batchMintAmt) public payable {
     // no free minting for batch
 
-    require((tokens.totalSupply() + batchMintAmt) <= MAX_MIRLS, 'No more left to mint');
+    require((tokens.totalSupply() + batchMintAmt) <= MAX_JBA, 'No more left to mint');
     require((tokens.balanceOf(to) + batchMintAmt) <= MAX_PER_WALLET, 'You have minted your wallet limit');
     require(msg.value >= (BASE_PRICE * batchMintAmt), 'Need to send more ether');
 
@@ -86,8 +87,8 @@ contract Minter is Ownable {
    */
 
   function setContractAddress(address payable _address) external onlyOwner {
-    MIRLsAddress = _address;
-    tokens = MIRLs(_address);
+    JBAAddress = _address;
+    tokens = JBA(_address);
   }
 
   function setBasePrice(uint256 _basePrice) public onlyOwner {

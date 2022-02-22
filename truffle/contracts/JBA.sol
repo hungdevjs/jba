@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract MIRLs is ERC721, ERC721Enumerable, Pausable, AccessControl, ERC721Burnable {
+contract JBA is ERC721, ERC721Enumerable, Pausable, AccessControl, ERC721Burnable {
     using Counters for Counters.Counter;
 
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
@@ -17,7 +17,7 @@ contract MIRLs is ERC721, ERC721Enumerable, Pausable, AccessControl, ERC721Burna
 
     Counters.Counter private _tokenIdCounter;
 
-    constructor() ERC721("MIRLs", "MIRLs") {
+    constructor() ERC721("JBA", "JBA") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(PAUSER_ROLE, msg.sender);
         _grantRole(MINTER_ROLE, msg.sender);
@@ -37,10 +37,13 @@ contract MIRLs is ERC721, ERC721Enumerable, Pausable, AccessControl, ERC721Burna
     }
 
     function safeMint(address to) public onlyRole(MINTER_ROLE) {
-        require(hasRole(WHITE_LIST_ROLE, to), "User account isnt whitelisted");
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);
+    }
+
+    function isWhiteListed(address addr) view public returns (bool) {
+        return hasRole(WHITE_LIST_ROLE, addr);
     }
 
     function _beforeTokenTransfer(address from, address to, uint256 tokenId)

@@ -8,7 +8,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import Web3 from "web3";
 import Moralis from "moralis";
 
-import MIRLs from "./abis/MIRLs.json";
+import JBA from "./abis/JBA.json";
 import Minter from "./abis/Minter.json";
 
 const serverUrl = "https://mndttulob3te.usemoralis.com:2053/server";
@@ -28,7 +28,7 @@ const networkId = "5777"; // Ganache
 // const networkId = '4'; //Rinkeby
 // const networkId = '1'; //Ethereum Mainnet
 
-const signingMessage = `Welcome to MIRLs.
+const signingMessage = `Welcome to JBA.
 
 Click to sign in and authenticate to the site: https://random.com/
 
@@ -56,14 +56,14 @@ const App = () => {
 
   useEffect(() => {
     (async () => {
-      if (MIRLs.networks[networkId]) {
-        setBaseContractAddress(MIRLs.networks[networkId].address);
+      if (JBA.networks[networkId]) {
+        setBaseContractAddress(JBA.networks[networkId].address);
       }
       if (Minter.networks[networkId]) {
         setMinterContractAddress(Minter.networks[networkId].address);
       }
       // console.log({
-      //   baseContractAddress: MIRLs.networks[networkId].address,
+      //   baseContractAddress: JBA.networks[networkId].address,
       //   minterContractAddress: Minter.networks[networkId].address,
       // });
     })();
@@ -76,10 +76,7 @@ const App = () => {
 
   useEffect(() => {
     if (web3) {
-      const _baseContract = new web3.eth.Contract(
-        MIRLs.abi,
-        baseContractAddress
-      );
+      const _baseContract = new web3.eth.Contract(JBA.abi, baseContractAddress);
       setBaseContract(_baseContract);
 
       // const _minterContract = new web3.eth.Contract(Minter.abi, minterContractAddress);
@@ -95,7 +92,7 @@ const App = () => {
         const totalSupplyResult = await Moralis.executeFunction({
           contractAddress: baseContractAddress,
           functionName: "totalSupply",
-          abi: MIRLs.abi,
+          abi: JBA.abi,
         });
         console.log("totalSupply: ", totalSupplyResult.toString());
         setTotalySupply(totalSupplyResult.toNumber());
@@ -165,7 +162,7 @@ const App = () => {
     // const roles = await Moralis.executeFunction({
     //   contractAddress: baseContractAddress,
     //   functionName: "checkRole",
-    //   abi: MIRLs.abi,
+    //   abi: JBA.abi,
     // });
     // console.log({ roles, account });
 
@@ -238,7 +235,7 @@ const App = () => {
       const totalSupplyResult = await Moralis.executeFunction({
         contractAddress: baseContractAddress,
         functionName: "totalSupply",
-        abi: MIRLs.abi,
+        abi: JBA.abi,
       });
       console.log("totalSupply: ", totalSupplyResult.toString());
       setTotalySupply(totalSupplyResult.toNumber());
@@ -248,7 +245,7 @@ const App = () => {
       const balanceOfResult = await Moralis.executeFunction({
         contractAddress: baseContractAddress,
         functionName: "balanceOf",
-        abi: MIRLs.abi,
+        abi: JBA.abi,
         params: {
           owner: account,
         },
@@ -322,7 +319,7 @@ const App = () => {
           const sendOptions = {
             contractAddress: baseContractAddress,
             functionName: "grantRole",
-            abi: MIRLs.abi,
+            abi: JBA.abi,
             params: {
               role: "0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6",
               account: minterContractAddress,
@@ -349,7 +346,7 @@ const App = () => {
                     {`Your account: ${account}`}
                   </div>
                   <p className="mint-subtitle">
-                    Minting MIRL will give you good luck!
+                    Minting JBA will give you good luck!
                   </p>
 
                   {/* {totalySupply >= FREE_MINT_AMT && (

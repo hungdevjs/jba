@@ -1,11 +1,11 @@
 const Minter = artifacts.require("Minter");
-const MIRLs = artifacts.require("MIRLs");
+const JBA = artifacts.require("JBA");
 
 module.exports = async function (deployer, network, accounts) {
   console.log({ network, accounts });
-  const MIRLsInstance = await MIRLs.deployed();
-  console.log("MIRLs Deployed Address", MIRLsInstance.address);
+  const JBAInstance = await JBA.deployed();
+  console.log("JBA Deployed Address", JBAInstance.address);
 
-  const instance = await deployer.deploy(Minter, MIRLsInstance.address);
+  const instance = await deployer.deploy(Minter, JBAInstance.address);
   console.log("Deployed Minter", instance.address);
 };
