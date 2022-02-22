@@ -349,7 +349,7 @@ const App = () => {
                     {`Your account: ${account}`}
                   </div>
                   <p className="mint-subtitle">
-                    Minting Lucky Chonks will give you good luck!
+                    Minting MIRL will give you good luck!
                   </p>
 
                   {/* {totalySupply >= FREE_MINT_AMT && (
