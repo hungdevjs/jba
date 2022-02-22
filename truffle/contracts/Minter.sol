@@ -6,7 +6,7 @@ import './MIRLs.sol';
 
 contract Minter is Ownable {
   uint256 public BASE_PRICE = 0.05 ether;
-  uint256 public constant MAX_PER_WALLET = 2;
+  uint256 public constant MAX_PER_WALLET = 5;
   uint256 public constant MAX_MIRLS = 888;
   uint256 public constant FREE_MINT = 444;
 
