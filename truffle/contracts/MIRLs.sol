@@ -17,6 +17,7 @@ contract MIRLs is Initializable, ERC721Upgradeable, ERC721EnumerableUpgradeable,
     bytes32 public constant WHITE_LIST_ROLE = keccak256("WHITE_LIST_ROLE");
 
     CountersUpgradeable.Counter private _tokenIdCounter;
+    event Log(string str);
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
@@ -28,10 +29,10 @@ contract MIRLs is Initializable, ERC721Upgradeable, ERC721EnumerableUpgradeable,
         __AccessControl_init();
         __ERC721Burnable_init();
 
-        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _grantRole(PAUSER_ROLE, msg.sender);
-        _grantRole(MINTER_ROLE, msg.sender);
-        _grantRole(WHITE_LIST_ROLE, msg.sender);
+        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _setupRole(PAUSER_ROLE, msg.sender);
+        _setupRole(MINTER_ROLE, msg.sender);
+        _setupRole(WHITE_LIST_ROLE, msg.sender);
     }
 
     function _baseURI() internal pure override returns (string memory) {
@@ -46,8 +47,19 @@ contract MIRLs is Initializable, ERC721Upgradeable, ERC721EnumerableUpgradeable,
         _unpause();
     }
 
+    struct Roles {
+        bool isAdmin;
+        bool isMinter;
+        bool isPauser;
+        bool isWhiteListed;
+    }
+
+    function checkRole() view public returns (Roles memory) {
+        return Roles(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), hasRole(MINTER_ROLE, msg.sender), hasRole(PAUSER_ROLE, msg.sender), hasRole(WHITE_LIST_ROLE, msg.sender));
+    }
+
     function safeMint(address to) public onlyRole(MINTER_ROLE) {
-        require(hasRole(WHITE_LIST_ROLE, msg.sender), "Address is not whitelisted");
+        // require(hasRole(MINTER_ROLE, msg.sender), "Address is not whitelisted");
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);

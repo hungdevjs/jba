@@ -161,6 +161,15 @@ const App = () => {
   //   await transaction.wait();
   // };
   const mintOnePaid = async () => {
+    // console.log("get roles");
+    // const roles = await Moralis.executeFunction({
+    //   contractAddress: baseContractAddress,
+    //   functionName: "checkRole",
+    //   abi: MIRLs.abi,
+    // });
+    // console.log({ roles, account });
+
+    // return;
     const ethValue = Moralis.Units.ETH(MINT_PRICE);
 
     const transaction = await Moralis.executeFunction({
