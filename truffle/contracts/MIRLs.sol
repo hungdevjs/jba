@@ -13,12 +13,15 @@ contract MIRLs is ERC721, ERC721Enumerable, Pausable, AccessControl, ERC721Burna
 
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+    bytes32 public constant WHITE_LIST_ROLE = keccak256("WHITE_LIST_ROLE");
+
     Counters.Counter private _tokenIdCounter;
 
     constructor() ERC721("MIRLs", "MIRLs") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(PAUSER_ROLE, msg.sender);
         _grantRole(MINTER_ROLE, msg.sender);
+        _grantRole(WHITE_LIST_ROLE, msg.sender);
     }
 
     function _baseURI() internal pure override returns (string memory) {
@@ -34,6 +37,7 @@ contract MIRLs is ERC721, ERC721Enumerable, Pausable, AccessControl, ERC721Burna
     }
 
     function safeMint(address to) public onlyRole(MINTER_ROLE) {
+        require(hasRole(WHITE_LIST_ROLE, to), "User account isnt whitelisted");
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);
