@@ -15805,14 +15805,72 @@
   },
   "networks": {
     "5777": {
-      "events": {},
+      "events": {
+        "0xbd0faddf87043dd749c1b9d4dca8a12589b8cb5e2106832111ce23f219b14367": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "gas",
+              "type": "uint256"
+            }
+          ],
+          "name": "Log",
+          "type": "event"
+        },
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        },
+        "0xfe0c8fdb7358cac52628b197c1f1419c599e01d9894a88eefab41a1a1839d291": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "bool",
+              "name": "success",
+              "type": "bool"
+            },
+            {
+              "indexed": false,
+              "internalType": "bytes",
+              "name": "data",
+              "type": "bytes"
+            }
+          ],
+          "name": "ResultsFromCall",
+          "type": "event"
+        }
+      },
       "links": {},
-      "address": "0xC5B42a3ea4e06643A87e72B4973Dc111091944FD",
-      "transactionHash": "0x890e02cf420f63d345e38c530740494adfc4f6e5b4ba31401e401865c2dbd324"
+      "address": "0xd3AE5372e377Ef5c9567Faeb95fD61507b266C06",
+      "transactionHash": "0x8b7f09b2b6e10e17434a4478c04c87fe2344a20d5696f9940db39ded42b7e387"
     }
   },
   "schemaVersion": "3.4.5",
-  "updatedAt": "2022-02-22T11:43:29.702Z",
+  "updatedAt": "2022-02-22T15:11:07.949Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
