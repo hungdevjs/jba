@@ -24,6 +24,7 @@ Moralis.start({ serverUrl, appId });
 const TOTAL_MINT_AMT = 888;
 const FREE_MINT_AMT = 444;
 const MINT_PRICE = 0.0;
+const MAX_PER_WALLET = 5;
 
 // const chainId = ChainIds.ganache; // Ganache
 const chainId = ChainIds.rinkeby; // Rinkeby
@@ -220,7 +221,7 @@ const Home = () => {
 
   const onChangeAmount = (event) => {
     const amount = +event.target.value.replace(/\D/, ""); // only positive numbers
-    if (amount <= 2) setMintAmount(amount);
+    if (amount <= MAX_PER_WALLET) setMintAmount(amount);
   };
 
   const onDecrease = () => {
@@ -228,9 +229,9 @@ const Home = () => {
   };
 
   const onIncrease = () => {
-    let maxSpinner = 2;
+    let maxSpinner = MAX_PER_WALLET;
 
-    if (TOTAL_MINT_AMT - totalySupply < 2) {
+    if (TOTAL_MINT_AMT - totalySupply < MAX_PER_WALLET) {
       maxSpinner = TOTAL_MINT_AMT - totalySupply;
     }
 
@@ -301,7 +302,9 @@ const Home = () => {
             </Box>
 
             <Box display="flex" flexDirection="column" gap={2}>
-              <Typography>Amount max 2 JBAs per wallet</Typography>
+              <Typography>
+                Amount max {MAX_PER_WALLET} JBAs per wallet
+              </Typography>
               <Button variant="contained" onClick={minting}>
                 Mint
               </Button>
