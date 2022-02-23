@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.11;
 
-import '@openzeppelin/contracts/access/Ownable.sol';
-import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
+import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
+import "@openzeppelin/contracts-upgradeable/utils/cryptography/MerkleProofUpgradeable.sol";
 import './JBA.sol';
 
-contract Minter is Ownable {
-  bytes32 public constant merkleRoot = 0xad394490230bbfbf2d72242f35618fb76505aa96b686a91c7ef775f263d98cd8;
+contract Minter is OwnableUpgradeable {
+  bytes32 public constant merkleRoot = 0x61efffbebd403d9f2c9887e53aac7039ef8ac2fe331358983d8ee975c12020ff;
   uint256 public BASE_PRICE = 0.05 ether;
   uint256 public constant MAX_PER_WALLET = 5;
   uint256 public constant MAX_JBA = 888;
@@ -29,7 +29,7 @@ contract Minter is Ownable {
 
   function validateWhiteList(bytes32[] calldata merkleProof, address sender) private pure returns (bool) {
     bytes32 leaf = keccak256(abi.encodePacked(sender));
-    return MerkleProof.verify(merkleProof, merkleRoot, leaf);
+    return MerkleProofUpgradeable.verify(merkleProof, merkleRoot, leaf);
   }
 
   /**
