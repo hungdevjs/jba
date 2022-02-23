@@ -11,10 +11,6 @@ const { serverUrl, appId } = MoralisConfigs;
 
 Moralis.start({ serverUrl, appId });
 
-const TOTAL_MINT_AMT = 888;
-const FREE_MINT_AMT = 444;
-const MINT_PRICE = 0.0;
-
 // const chainId = ChainIds.ganache; // Ganache
 const chainId = ChainIds.rinkeby; // Rinkeby
 // const chainId = ChainIds.mainnet; // Mainnet
@@ -134,12 +130,12 @@ const Admin = () => {
       <Typography>Admin functions</Typography>
       {account ? (
         <Box display="flex" flexDirection="column" gap={3}>
-          <Button
+          {/* <Button
             variant="contained"
             onClick={() => addRole(minterContractAddress, ROLES.MINTER)}
           >
             Grant MINTER_ROLE for Minter contract
-          </Button>
+          </Button> */}
 
           <Box display="flex" flexDirection="column" gap={2}>
             <TextField

@@ -35,7 +35,7 @@ const networkId = NetworkIds.rinkeby; // Rinkeby
 
 const signingMessage = `Welcome to JBA.
 
-Click to sign in and authenticate to the site: https://random.com/
+Click to sign in and authenticate to the site: https://jba.vercel.app/
 
 This request will not trigger a blockchain transaction or cost any gas fees.
 
