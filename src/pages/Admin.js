@@ -1,27 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import Web3 from "web3";
 import Moralis from "moralis";
 
 import JBA from "../abis/JBA.json";
 import Minter from "../abis/Minter.json";
-import { MoralisConfigs, ChainIds, NetworkIds } from "../utils/constants";
+import { MoralisConfigs, chainId, networkId } from "../utils/constants";
 
 const { serverUrl, appId } = MoralisConfigs;
 
 Moralis.start({ serverUrl, appId });
 
-// const chainId = ChainIds.ganache; // Ganache
-const chainId = ChainIds.rinkeby; // Rinkeby
-// const chainId = ChainIds.mainnet; // Mainnet
-
-// const networkId = NetworkIds.ganache; // Ganache
-const networkId = NetworkIds.rinkeby; // Rinkeby
-// const networkId = NetworkIds.mainnet; // Mainnet
-
 const signingMessage = `Welcome to JBA.
 
-Click to sign in and authenticate to the site: https://random.com/
+Click to sign in and authenticate to the site: https://jba.vercel.app/
 
 This request will not trigger a blockchain transaction or cost any gas fees.
 
@@ -29,8 +21,6 @@ Your authentication status will reset after 24 hours.`;
 
 const ROLES = {
   MINTER: "0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6",
-  WHITELIST:
-    "0x86024e89529ee90561d266fe70772355cdf7be9c9e97e3ac6b5d90ddbc853365",
 };
 
 const Admin = () => {
@@ -39,7 +29,6 @@ const Admin = () => {
   const [baseContract, setBaseContract] = useState(null);
   const [account, setAccount] = useState();
   const [web3, setWeb3] = useState(null);
-  const [address, setAddress] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -115,7 +104,6 @@ const Admin = () => {
     console.log(transaction.hash);
     // Wait until the transaction is confirmed
     await transaction.wait();
-    setAddress("");
     alert("Success");
   };
 
@@ -130,27 +118,12 @@ const Admin = () => {
       <Typography>Admin functions</Typography>
       {account ? (
         <Box display="flex" flexDirection="column" gap={3}>
-          {/* <Button
+          <Button
             variant="contained"
             onClick={() => addRole(minterContractAddress, ROLES.MINTER)}
           >
             Grant MINTER_ROLE for Minter contract
-          </Button> */}
-
-          <Box display="flex" flexDirection="column" gap={2}>
-            <TextField
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder="Wallet address"
-            />
-            <Button
-              variant="contained"
-              disabled={!address}
-              onClick={() => addRole(address, ROLES.WHITELIST)}
-            >
-              Add wallet address to whitelist
-            </Button>
-          </Box>
+          </Button>
         </Box>
       ) : (
         <Button variant="contained" onClick={connectWallet}>

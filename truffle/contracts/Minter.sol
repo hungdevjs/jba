@@ -2,9 +2,11 @@
 pragma solidity ^0.8.11;
 
 import '@openzeppelin/contracts/access/Ownable.sol';
+import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 import './JBA.sol';
 
 contract Minter is Ownable {
+  bytes32 public constant merkleRoot = 0xad394490230bbfbf2d72242f35618fb76505aa96b686a91c7ef775f263d98cd8;
   uint256 public BASE_PRICE = 0.05 ether;
   uint256 public constant MAX_PER_WALLET = 5;
   uint256 public constant MAX_JBA = 888;
@@ -25,6 +27,11 @@ contract Minter is Ownable {
 
   fallback() external payable {}
 
+  function validateWhiteList(bytes32[] calldata merkleProof, address sender) private pure returns (bool) {
+    bytes32 leaf = keccak256(abi.encodePacked(sender));
+    return MerkleProof.verify(merkleProof, merkleRoot, leaf);
+  }
+
   /**
   ***************************
   Public
@@ -35,8 +42,8 @@ contract Minter is Ownable {
     return address(this).balance;
   }
 
-  function mint(address to) public payable {
-    require(tokens.isWhiteListed(to), "User isnt whitelisted");
+  function mint(address to, bytes32[] calldata merkleProof) public payable {
+    require(validateWhiteList(merkleProof, to), "User isnt whitelisted");
     require(tokens.totalSupply() < MAX_JBA, 'No more left to mint');
     require(tokens.balanceOf(to) < MAX_PER_WALLET, 'You have minted your wallet limit');
 
@@ -51,9 +58,9 @@ contract Minter is Ownable {
     emit Log(msg.value, gasleft());
   }
 
-  function batchMint(address to, uint256 batchMintAmt) public payable {
+  function batchMint(address to, bytes32[] calldata merkleProof, uint256 batchMintAmt) public payable {
     // no free minting for batch
-
+    require(validateWhiteList(merkleProof, to), "User isnt whitelisted");
     require((tokens.totalSupply() + batchMintAmt) <= MAX_JBA, 'No more left to mint');
     require((tokens.balanceOf(to) + batchMintAmt) <= MAX_PER_WALLET, 'You have minted your wallet limit');
     require(msg.value >= (BASE_PRICE * batchMintAmt), 'Need to send more ether');

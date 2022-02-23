@@ -13,7 +13,6 @@ contract JBA is ERC721, ERC721Enumerable, Pausable, AccessControl, ERC721Burnabl
 
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
-    bytes32 public constant WHITE_LIST_ROLE = keccak256("WHITE_LIST_ROLE");
 
     Counters.Counter private _tokenIdCounter;
 
@@ -21,11 +20,10 @@ contract JBA is ERC721, ERC721Enumerable, Pausable, AccessControl, ERC721Burnabl
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(PAUSER_ROLE, msg.sender);
         _grantRole(MINTER_ROLE, msg.sender);
-        _grantRole(WHITE_LIST_ROLE, msg.sender);
     }
 
     function _baseURI() internal pure override returns (string memory) {
-        return "https://random.com";
+        return "https://jba.vercel.app/";
     }
 
     function pause() public onlyRole(PAUSER_ROLE) {
@@ -40,10 +38,6 @@ contract JBA is ERC721, ERC721Enumerable, Pausable, AccessControl, ERC721Burnabl
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);
-    }
-
-    function isWhiteListed(address addr) view public returns (bool) {
-        return hasRole(WHITE_LIST_ROLE, addr);
     }
 
     function _beforeTokenTransfer(address from, address to, uint256 tokenId)

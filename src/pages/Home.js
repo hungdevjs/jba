@@ -15,24 +15,17 @@ import Moralis from "moralis";
 
 import JBA from "../abis/JBA.json";
 import Minter from "../abis/Minter.json";
-import { MoralisConfigs, ChainIds, NetworkIds } from "../utils/constants";
+import { MoralisConfigs, chainId, networkId } from "../utils/constants";
+import getHexProof from "../utils/getHexProof";
 
 const { serverUrl, appId } = MoralisConfigs;
 
 Moralis.start({ serverUrl, appId });
 
 const TOTAL_MINT_AMT = 888;
-const FREE_MINT_AMT = 444;
+// const FREE_MINT_AMT = 444;
 const MINT_PRICE = 0.0;
 const MAX_PER_WALLET = 5;
-
-// const chainId = ChainIds.ganache; // Ganache
-const chainId = ChainIds.rinkeby; // Rinkeby
-// const chainId = ChainIds.mainnet; // Mainnet
-
-// const networkId = NetworkIds.ganache; // Ganache
-const networkId = NetworkIds.rinkeby; // Rinkeby
-// const networkId = NetworkIds.mainnet; // Mainnet
 
 const signingMessage = `Welcome to JBA.
 
@@ -151,6 +144,7 @@ const Home = () => {
 
   const mintOnePaid = async () => {
     const ethValue = Moralis.Units.ETH(MINT_PRICE);
+    console.log({ account, merkleProof: getHexProof(account) });
 
     const transaction = await Moralis.executeFunction({
       contractAddress: minterContractAddress,
@@ -159,6 +153,7 @@ const Home = () => {
       msgValue: ethValue,
       params: {
         to: account,
+        merkleProof: getHexProof(account),
       },
     });
     console.log("transaction.hash", transaction.hash);
@@ -178,6 +173,7 @@ const Home = () => {
       msgValue: ethValue,
       params: {
         to: account,
+        merkleProof: getHexProof(account),
         batchMintAmt: batchSize,
       },
     });
