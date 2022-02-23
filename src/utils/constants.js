@@ -1,6 +1,6 @@
 export const MoralisConfigs = {
-  serverUrl: process.env.REACT_APP_MORALIS_SERVER_URL,
-  appId: process.env.REACT_APP_MORALIS_APP_ID,
+  serverUrl: "https://6zitu24v62ou.usemoralis.com:2053/server",
+  appId: "mKu4P0mSPKHy23MV7IzqCdRxZIMbEvcKlbQE56d7",
 };
 
 export const ChainIds = {

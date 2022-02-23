@@ -15,12 +15,12 @@ const TOTAL_MINT_AMT = 888;
 const FREE_MINT_AMT = 444;
 const MINT_PRICE = 0.0;
 
-const chainId = ChainIds.ganache; // Ganache
-// const chainId = ChainIds.rinkeby; // Rinkeby
+// const chainId = ChainIds.ganache; // Ganache
+const chainId = ChainIds.rinkeby; // Rinkeby
 // const chainId = ChainIds.mainnet; // Mainnet
 
-const networkId = NetworkIds.ganache; // Ganache
-// const networkId = NetworkIds.rinkeby; // Rinkeby
+// const networkId = NetworkIds.ganache; // Ganache
+const networkId = NetworkIds.rinkeby; // Rinkeby
 // const networkId = NetworkIds.mainnet; // Mainnet
 
 const signingMessage = `Welcome to JBA.
